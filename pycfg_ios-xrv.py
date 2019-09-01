@@ -9,7 +9,7 @@ Required Modules: paramiko, netmiko, scp, pyyaml, pyserial, textfsm
 from netmiko import ConnectHandler
 import sys
 
-print("Hi, do you really want to delete the configuration?") 
+print("Hi, this script will delete some configuration in your router") 
 print("Please make sure to backup your device!")
 print("-----------------------------------------------------\n")
 
@@ -40,7 +40,7 @@ router_xrv = {
 devconnect = ConnectHandler(**router_xrv)
 
 connected_device = devconnect.find_prompt()
-print("You are now successfully connected to %s" %connected_device)
+print("You are now successfully connected to: %s" %connected_device)
 
 cmd_executed = raw_input("Please enter specific command you want to execute: ")
 #cmd_executed = ['1st-command','2nd-command', '3rd-command', and so on]
@@ -49,14 +49,14 @@ cmd_output = devconnect.send_config_set(cmd_executed)
 print(cmd_output)
 print("Your command has been executed, well done!\n")
 
-cmd_commit = raw_input("Do you want to commit? (yes/no)")
+cmd_commit = raw_input("Do you want to commit? (yes/no): ")
 
 if cmd_commit == "yes":
 	devconnect.commit()
 elif cmd_commit == "no":
 	print("Command is not commited")
 else:
-	print("Your option is wrong, dude! Either yes/no ONLY")
+	print("Your option is wrong, dude! Enter yes/no ONLY")
 
 #Terminate Connection
 devconnect.disconnect()
