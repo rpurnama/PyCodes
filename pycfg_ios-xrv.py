@@ -3,6 +3,7 @@
 Version	: 0.0 (draft-release)
 Author	: Rakhmadian Purnama <rakhmadian.purnama@mastersystem.co.id>
 Source	: https://github.com/rpurnama
+Required Modules: paramiko, netmiko, scp, pyyaml, pyserial, textfsm
 """
 
 from netmiko import ConnectHandler
@@ -18,6 +19,7 @@ uid = raw_input("Enter Username: ")
 pwd = raw_input("Enter Password: ")
 #pwd = sys.argv[3]
 
+#Load Connection for Cisco IOS-XR
 router_xrv = {
 	'device_type': 'cisco_xr',
 	'host': ip_addr,
@@ -25,13 +27,23 @@ router_xrv = {
 	'password': pwd,
 }
 
+"""
+#Load Connection for Cisco IOS
+router_xrv = {
+	'device_type': 'cisco_ios',
+	'host': ip_addr,
+	'username': uid,
+	'password': pwd,
+}
+"""
+
 devconnect = ConnectHandler(**router_xrv)
 
 connected_device = devconnect.find_prompt()
 print("You are now successfully connected to %s" %connected_device)
 
 cmd_executed = raw_input("Please enter specific command you want to execute: ")
-#cmd_executed = ['list of commands you want to execute in Cisco IOS-XR']
+#cmd_executed = ['1st-command','2nd-command', '3rd-command', and so on]
 
 cmd_output = devconnect.send_config_set(cmd_executed)
 print(cmd_output)
@@ -48,4 +60,4 @@ else:
 
 #Terminate Connection
 devconnect.disconnect()
-print("Connection closed, good bye!!!")
+print("Connection is closed, good bye!!!")
